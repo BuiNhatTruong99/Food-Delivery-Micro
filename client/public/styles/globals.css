@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-}
+/* @layer base {
+} */
 
 .btn-shiny ::before {
   position: absolute;

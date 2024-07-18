@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import Image from 'next/image';
 import { FC, ReactNode } from 'react';
 
-const BackgroundAuthLayout: FC<{ children: ReactNode }> = ({ children }) => {
+const BackgroundAuth: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <Box className="w-full relative h-[100dvh]">
       <Box className="w-full relative">
@@ -31,4 +31,4 @@ const BackgroundAuthLayout: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default BackgroundAuthLayout;
+export default BackgroundAuth;

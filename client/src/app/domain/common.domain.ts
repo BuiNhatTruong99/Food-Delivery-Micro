@@ -1,4 +1,4 @@
-export interface Sizes {
+export interface ISizes {
   width?: number;
   height?: number;
 }

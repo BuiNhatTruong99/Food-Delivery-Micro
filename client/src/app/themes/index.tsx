@@ -1,21 +1,23 @@
 'use client';
 
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import { darkTheme, lightTheme } from '@/config';
-import { useState } from 'react';
+import { darkTheme, lightTheme, ThemeMode } from '@/config';
+import { useEffect } from 'react';
 import { CssBaseline } from '@mui/material';
+import { useThemeStore } from '@/stores';
 
 interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('dark');
-  const toggleTheme = () => {
-    setThemeMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-  };
+  const { themeMode, toggleTheme } = useThemeStore();
 
-  const theme = themeMode === 'light' ? lightTheme : darkTheme;
+  useEffect(() => {
+    document.body.classList.toggle('dark', themeMode === ThemeMode.DARK);
+  }, [themeMode]);
+
+  const theme = themeMode === ThemeMode.LIGHT ? lightTheme : darkTheme;
 
   return (
     <MuiThemeProvider theme={theme}>

@@ -68,9 +68,16 @@ const typography = {
 
 export default typography;
 
+export enum ThemeMode {
+  LIGHT = 'light',
+  DARK = 'dark'
+}
+
+export const DEFAULT_MODE = ThemeMode.LIGHT;
+
 // Create a theme.
 const lightPalette: PaletteOptions = {
-  mode: 'light',
+  mode: ThemeMode.LIGHT,
   common: {
     black: '#000000',
     white: '#FFFFFF'
@@ -88,7 +95,7 @@ const lightPalette: PaletteOptions = {
 };
 
 const darkPalette: PaletteOptions = {
-  mode: 'dark',
+  mode: ThemeMode.DARK,
   common: {
     black: '#000000',
     white: '#FFFFFF'

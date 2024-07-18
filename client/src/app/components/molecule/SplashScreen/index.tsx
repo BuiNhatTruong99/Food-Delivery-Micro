@@ -1,3 +1,5 @@
+'use client';
+
 import { IconLogo } from '@/components/atom';
 import { IMAGES_DEFAULT } from '@/constant';
 import Image from 'next/image';

@@ -5,7 +5,7 @@ import {
   Control,
   FieldError
 } from 'react-hook-form';
-import { Box, SxProps, Theme, Typography, useTheme } from '@mui/material';
+import { Box, SxProps, Theme, Typography } from '@mui/material';
 import { ReactNode, useMemo } from 'react';
 import Input, { IInputProps } from '../../Input';
 
@@ -22,8 +22,6 @@ export interface InputFieldProps<Type extends FieldValues>
 const InputField = <T extends FieldValues>(props: InputFieldProps<T>) => {
   const { control, name, label, layoutType, errorField, wrapperSx, ...rest } =
     props;
-
-  const theme = useTheme();
 
   const isErrorField = useMemo(
     () => errorField?.message && errorField?.message?.length > 0,
@@ -69,9 +67,7 @@ const InputField = <T extends FieldValues>(props: InputFieldProps<T>) => {
       {isErrorField && (
         <Typography
           variant="body2"
-          className={`text-primary absolute top-[25px] z-10  p-[2px] left-3 text-[13px] ${
-            theme.palette.mode === 'dark' ? 'bg-darkPaper' : 'bg-white'
-          }`}
+          className="text-primary absolute top-[25px] z-10  p-[2px] left-3 text-[13px] bg-white dark:bg-darkPaper"
         >
           {errorField?.message}
         </Typography>

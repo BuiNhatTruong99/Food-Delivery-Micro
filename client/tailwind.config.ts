@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'jit',
   darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,17 +10,14 @@ module.exports = {
     extend: {
       colors: {
         primary: '#FE724C',
-        darkText: '#1A1D26',
         darkPaper: '#2D2D3A',
-        darkDefault: '#3B3A39',
-        lightText: '#212121',
-        lightPaper: '#FFFFFF',
-        lightDefault: '#FFFFFF'
+        darkDefault: '#3B3A39'
       },
       boxShadow: {
         socialBtn:
           '18.58696px 18.58696px 37.17392px 0px rgba(211, 209, 216, 0.5)',
-        primaryBtn: '0px 10px 20px 0px rgba(254, 114, 76, 0.50)'
+        primaryBtn: '0px 10px 20px 0px rgba(254, 114, 76, 0.50)',
+        welcomePage: 'inset 0px -120px 150px rgba(37, 39, 58, 0.8);'
       },
       animation: {
         scale: 'scaleUp 1.25s ease-in-out infinite',
