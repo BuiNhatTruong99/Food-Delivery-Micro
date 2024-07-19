@@ -2,6 +2,10 @@
 import onboardingBackground from '@images/onboarding/background.png';
 import onboardingTitle from '@images/onboarding/title.svg';
 
+import onboarding1 from '@images/onboarding/onboard1.svg';
+import onboarding2 from '@images/onboarding/onboard2.svg';
+import onboarding3 from '@images/onboarding/onboard3.svg';
+
 // Splash images
 import splashTitle from '@images/splash/title.svg';
 
@@ -17,7 +21,10 @@ import authGoogleIcon from '@images/auth/google-icon.svg';
 export const IMAGES_DEFAULT = {
   onboarding: {
     background: onboardingBackground,
-    title: onboardingTitle
+    title: onboardingTitle,
+    onboard1: onboarding1,
+    onboard2: onboarding2,
+    onboard3: onboarding3
   },
   splash: {
     title: splashTitle

@@ -51,7 +51,7 @@ const widthBySize = {
 };
 
 const fontSizeBySize = {
-  [SizeButton.large]: '15px',
+  [SizeButton.large]: '18px',
   [SizeButton.medium]: '15px',
   [SizeButton.small]: '14px'
 };

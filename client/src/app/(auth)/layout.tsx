@@ -1,5 +1,6 @@
 'use client';
 
+import { PageTransition } from '@/components/molecule';
 import { PATHNAME } from '@/config';
 import useRouterProgress from '@/hooks/useRouterProgress';
 import { BackgroundAuth, FooterForAuth } from '@/layouts';
@@ -16,10 +17,12 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     return <div className="h-[100dvh]">{children}</div>;
   }
   return (
-    <Box className="h-[100dvh]">
-      <BackgroundAuth>{children}</BackgroundAuth>
-      {FOOTER_FOR_AUTH.includes(pathName) ? <FooterForAuth /> : null}
-    </Box>
+    <PageTransition>
+      <Box className="h-[100dvh]">
+        <BackgroundAuth>{children}</BackgroundAuth>
+        {FOOTER_FOR_AUTH.includes(pathName) ? <FooterForAuth /> : null}
+      </Box>
+    </PageTransition>
   );
 };
 

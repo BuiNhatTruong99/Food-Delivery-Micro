@@ -1,5 +1,4 @@
 import { PATHNAME } from '@/config';
-import { ONBOARDING_STORAGE_KEY } from '@/constant';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
@@ -18,7 +17,7 @@ export const useOnboarding = () => {
   const onNextStep = useCallback(
     (stepKey: keyof typeof StepKey) => {
       if (stepKey === 'done') {
-        //   clientStorage.set(ONBOARDING_STORAGE_KEY, true);
+        // clientStorage.set(ONBOARDING_STORAGE_KEY, true);
         router.push(PATHNAME.SIGN_IN);
         return;
       }

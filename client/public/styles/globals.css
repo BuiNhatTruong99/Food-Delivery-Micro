@@ -39,3 +39,11 @@
 .input-active {
   border: 1px solid #fe724c !important;
 }
+
+.custom-pagination .swiper-pagination-bullet {
+  @apply w-2 h-2 bg-[#FFC529] opacity-40 mx-1 rounded-full transition-opacity;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  @apply w-7 opacity-100 bg-[#FFC529]; /* Active color */
+}

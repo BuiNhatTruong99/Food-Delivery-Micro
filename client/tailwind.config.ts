@@ -11,7 +11,9 @@ module.exports = {
       colors: {
         primary: '#FE724C',
         darkPaper: '#2D2D3A',
-        darkDefault: '#3B3A39'
+        darkDefault: '#3B3A39',
+        grayDark: '#C9CCD1',
+        grayLight: '#616772'
       },
       boxShadow: {
         socialBtn:

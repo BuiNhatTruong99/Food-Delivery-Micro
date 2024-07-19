@@ -3,11 +3,10 @@ export const PATH_PUBLIC = {
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
   RESETPASSWORD: '/reset-password',
-  VERIFICATION: '/verify-phone'
+  VERIFICATION: '/verification-code'
 };
 
 export const PATH_ROOT = {
-  PHONEREGISTRATION: '/phone-registration',
   HOME: '/',
   CONFIRM_EMAIL: '/confirm-email'
 };
