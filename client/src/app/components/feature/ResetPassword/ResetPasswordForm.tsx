@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
 import { Button, Form, InputField } from '@/components/atom';
 import { Box } from '@mui/material';
+import { useMessage } from '@/hooks/useMessage';
 
 const ResetPasswordForm = () => {
   const {
@@ -17,7 +18,11 @@ const ResetPasswordForm = () => {
     mode: 'all'
   });
 
-  const onSubmit = useCallback(() => {}, []);
+  const message = useMessage();
+
+  const onSubmit = useCallback(() => {
+    message.warning('Not implemented');
+  }, [message]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="flex gap-8 flex-col">

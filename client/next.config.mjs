@@ -9,6 +9,9 @@ const nextConfig = {
       '@images': path.resolve('public/images')
     };
     return config;
+  },
+  images: {
+    domains: ['lh3.googleusercontent.com']
   }
 };
 

@@ -1,7 +1,7 @@
 'use client';
 
-import NProgress from 'nprogress';
 import { usePathname, useSearchParams } from 'next/navigation';
+import nProgress from 'nprogress';
 import { useEffect } from 'react';
 
 const useRouterProgress = () => {
@@ -9,9 +9,9 @@ const useRouterProgress = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    NProgress.done();
+    nProgress.done();
     return () => {
-      NProgress.start();
+      nProgress.start();
     };
   }, [pathname, searchParams]);
 };

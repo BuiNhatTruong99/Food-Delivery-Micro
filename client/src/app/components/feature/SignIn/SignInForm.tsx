@@ -3,8 +3,10 @@
 import { useForm } from 'react-hook-form';
 import { SignInSchema, TSignInSchema } from './validSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button as ButtonMUI, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Button, Form, InputField } from '@/components/atom';
+import Link from 'next/link';
+import { PATHNAME } from '@/config';
 
 const SignInForm = () => {
   const {
@@ -40,7 +42,7 @@ const SignInForm = () => {
         />
       </Box>
       <Box className="text-right">
-        <ButtonMUI className="p-0 max-w-fit">
+        <Link href={PATHNAME.RESETPASSWORD} className="p-0 max-w-fit">
           <Typography
             variant="body2"
             fontWeight={600}
@@ -50,7 +52,7 @@ const SignInForm = () => {
           >
             Forgot password?
           </Typography>
-        </ButtonMUI>
+        </Link>
       </Box>
       <Button
         // loading={isLoading}

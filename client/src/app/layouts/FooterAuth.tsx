@@ -3,6 +3,7 @@
 import { IMAGES_DEFAULT } from '@/constant';
 import { Box, ButtonBase, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
+import { signIn } from 'next-auth/react';
 
 const FooterForAuth = () => {
   const theme = useTheme();
@@ -37,6 +38,7 @@ const FooterForAuth = () => {
               ? 'shadow-socialBtn'
               : 'bg-white text-black'
           }`}
+          onClick={() => signIn('google', { callbackUrl: '/' })}
         >
           <Image
             alt={IMAGES_DEFAULT.auth.googleIcon.toString()}
