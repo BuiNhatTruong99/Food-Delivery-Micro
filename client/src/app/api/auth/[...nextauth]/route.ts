@@ -13,17 +13,14 @@ const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async signIn({ user, account, email, profile }) {
       if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
-      }
-      return token;
-    },
-    async signIn({ user, account, profile, email, credentials }) {
-      if (user) {
-        console.log(user, account, profile, email, credentials);
+        console.log({
+          user,
+          account,
+          email,
+          profile
+        });
         return true;
       } else {
         return false;
