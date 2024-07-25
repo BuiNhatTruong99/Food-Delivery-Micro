@@ -1,5 +1,6 @@
 package com.food_delivery.identity.service;
 
+import com.food_delivery.identity.client.ProfileServiceClient;
 import com.food_delivery.identity.dto.request.GoogleSignInRequest;
 import com.food_delivery.identity.dto.request.UserSignInRequest;
 import com.food_delivery.identity.dto.request.UserSignUpRequest;
@@ -8,6 +9,7 @@ import com.food_delivery.identity.entity.AuthProvider;
 import com.food_delivery.identity.entity.User;
 import com.food_delivery.identity.exception.DuplicateResourceException;
 import com.food_delivery.identity.exception.ErrorCode;
+import com.food_delivery.identity.mapper.ProfileServiceMapper;
 import com.food_delivery.identity.mapper.UserMapper;
 import com.food_delivery.identity.repository.UserRepository;
 import com.food_delivery.identity.security.JwtService;
@@ -29,7 +31,9 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ProfileServiceMapper profileServiceMapper;
     private final PasswordEncoder passwordEncoder;
+    private final ProfileServiceClient profileServiceClient;
 
     @Transactional
     @Override
@@ -40,7 +44,14 @@ public class UserServiceImpl implements UserService {
         }
         var user = userMapper.toUser(userSignUpRequest);
         user.setPassword(passwordEncoder.encode(userSignUpRequest.getPassword()));
+        user.setAuthProvider(AuthProvider.LOCAL);
         userRepository.save(user);
+
+        // Call profile service to create profile
+        var profileRequest = profileServiceMapper.toProfileCreateRequest(userSignUpRequest);
+        profileRequest.setUserId(user.getId());
+        profileServiceClient.createProfile(profileRequest);
+
         var accessToken = jwtService.generateJwtToken(user);
         var userResponse = userMapper.toUserResponse(user);
         userResponse.setAccessToken(accessToken);
@@ -71,6 +82,12 @@ public class UserServiceImpl implements UserService {
             googleSignInRequest.setAuthProvider(String.valueOf(provider));
             User newUser = userMapper.toUser(googleSignInRequest);
             user = userRepository.save(newUser);
+
+            // Call profile service to create profile
+            var profileRequest = profileServiceMapper.toProfileCreateRequest(googleSignInRequest);
+            profileRequest.setUserId(user.getId());
+            profileServiceClient.createProfile(profileRequest);
+
         } else {
             user = userOptional.get();
         }

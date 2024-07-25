@@ -15,7 +15,7 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
-    @PostMapping("/")
+    @PostMapping("/users")
     public ResponseEntity<ApiResponse<ProfileResponse>> createProfile(
             @Valid
             @RequestBody ProfileCreateRequest profileCreateRequest

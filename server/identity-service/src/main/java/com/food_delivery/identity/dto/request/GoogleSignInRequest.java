@@ -23,4 +23,5 @@ public class GoogleSignInRequest {
 
     private String authProvider;
     private Boolean isEmailVerified;
+    private String imageUrl;
 }

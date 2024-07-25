@@ -21,8 +21,6 @@ public class ProfileCreateRequest {
     @NotBlank(message = "Email is required")
     private String email;
 
-    private String phoneNumber;
-
     private String imageUrl;
 
     private Integer userId;

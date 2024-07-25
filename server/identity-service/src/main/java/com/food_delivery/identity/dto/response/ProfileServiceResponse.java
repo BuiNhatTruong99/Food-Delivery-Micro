@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+public class ProfileServiceResponse {
     Integer id;
+    Integer userId;
+    String fullName;
     String email;
-    String role;
-    Boolean isEmailVerified;
-    String accessToken;
+    String phoneNumber;
+    String imageUrl;
 }
