@@ -1,0 +1,21 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /identity
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/food_delivery_identify
+    username: root
+    password: secret
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+env:
+  secret: DFjhBadj3d6X3df9WYac+DhnK1dK4xqj567N1+HHRv4=
+client:
+  url: http://localhost:3000
+

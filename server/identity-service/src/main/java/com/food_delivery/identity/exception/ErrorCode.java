@@ -11,6 +11,7 @@ public enum ErrorCode {
     // common
     ERR_INTERNAL_SERVER_ERROR("Some things went wrong", HttpStatus.INTERNAL_SERVER_ERROR),
     ERR_TOKEN_EXPIRED("Token expired", HttpStatus.UNAUTHORIZED),
+    ERR_TOKEN_INVALID("Invalid token", HttpStatus.UNAUTHORIZED),
     ERR_UNAUTHENTICATED("Unauthenticated", HttpStatus.UNAUTHORIZED),
     ERR_UNAUTHORIZED("Unauthorized", HttpStatus.UNAUTHORIZED),
 

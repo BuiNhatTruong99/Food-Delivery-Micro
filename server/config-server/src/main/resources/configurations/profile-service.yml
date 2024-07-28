@@ -1,0 +1,17 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /profile
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/food_delivery_profile
+    username: root
+    password: secret
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+

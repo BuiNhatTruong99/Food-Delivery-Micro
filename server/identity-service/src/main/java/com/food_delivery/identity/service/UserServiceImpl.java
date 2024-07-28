@@ -2,11 +2,14 @@ package com.food_delivery.identity.service;
 
 import com.food_delivery.identity.client.ProfileServiceClient;
 import com.food_delivery.identity.dto.request.GoogleSignInRequest;
+import com.food_delivery.identity.dto.request.IntrospectTokenRequest;
 import com.food_delivery.identity.dto.request.UserSignInRequest;
 import com.food_delivery.identity.dto.request.UserSignUpRequest;
+import com.food_delivery.identity.dto.response.IntrospectTokenResponse;
 import com.food_delivery.identity.dto.response.UserResponse;
 import com.food_delivery.identity.entity.AuthProvider;
 import com.food_delivery.identity.entity.User;
+import com.food_delivery.identity.exception.AppException;
 import com.food_delivery.identity.exception.DuplicateResourceException;
 import com.food_delivery.identity.exception.ErrorCode;
 import com.food_delivery.identity.mapper.ProfileServiceMapper;
@@ -18,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,38 +40,39 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final ProfileServiceMapper profileServiceMapper;
     private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
     private final ProfileServiceClient profileServiceClient;
 
     @Transactional
     @Override
     public UserResponse signUp(UserSignUpRequest userSignUpRequest) {
+        log.info("Sign up process for user {} start", userSignUpRequest.getEmail());
         Optional<User> userOptional = userRepository.findByEmail(userSignUpRequest.getEmail());
         if (userOptional.isPresent()) {
             log.warn("User with email {} already exists", userSignUpRequest.getEmail());
             throw new DuplicateResourceException(ErrorCode.ERR_USER_DUPLICATE);
         }
-
         var user = userMapper.toUser(userSignUpRequest);
         user.setPassword(passwordEncoder.encode(userSignUpRequest.getPassword()));
         user.setAuthProvider(AuthProvider.LOCAL);
         userRepository.save(user);
-        log.info("User with id {} created", user.getId());
 
         // Call profile service to create profile
+        log.info("Calling profile service");
         var profileRequest = profileServiceMapper.toProfileCreateRequest(userSignUpRequest);
         profileRequest.setUserId(user.getId());
         profileServiceClient.createProfile(profileRequest);
-        log.info("Profile created for user {}", user.getId());
 
         var accessToken = jwtService.generateJwtToken(user);
         var userResponse = userMapper.toUserResponse(user);
         userResponse.setAccessToken(accessToken);
+        log.info("Sign up process for user {} end", userSignUpRequest.getEmail());
         return userResponse;
     }
 
     @Override
     public UserResponse signIn(UserSignInRequest userSignInRequest) {
-        Authentication authentication =authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userSignInRequest.getEmail(),
                         userSignInRequest.getPassword()
@@ -74,7 +80,6 @@ public class UserServiceImpl implements UserService {
         );
         User user = (User) authentication.getPrincipal();
         log.info("Get user from authenticationManager: {}", user);
-
         var accessToken = jwtService.generateJwtToken(user);
         var userResponse = userMapper.toUserResponse(user);
         userResponse.setAccessToken(accessToken);
@@ -101,11 +106,31 @@ public class UserServiceImpl implements UserService {
 
         } else {
             user = userOptional.get();
-            log.info("User with id {} found", user.getId());
+            log.info("GOOGLE: User with id {} found", user.getId());
         }
         var accessToken = jwtService.generateJwtToken(user);
         var userResponse = userMapper.toUserResponse(user);
         userResponse.setAccessToken(accessToken);
         return userResponse;
+    }
+
+    @Override
+    public IntrospectTokenResponse introspectToken(IntrospectTokenRequest introspectTokenRequest) {
+        boolean isValid = true;
+        try {
+            verifyToken(introspectTokenRequest.getToken());
+        } catch (AppException e) {
+            isValid = false;
+        }
+        return IntrospectTokenResponse.builder()
+                .isValid(isValid)
+                .build();
+    }
+
+    @Override
+    public Boolean verifyToken(String token) {
+        String userEmail = jwtService.extractUsername(token);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+        return jwtService.isValidJwtToken(token, userDetails);
     }
 }

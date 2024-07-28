@@ -1,0 +1,22 @@
+server:
+  port: 8888
+app:
+  api-prefix: /api/v1
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: identity-service
+          uri: lb://identity-service
+          predicates:
+            - Path=${app.api-prefix}/identity/**
+          filters:
+            - StripPrefix=2
+            - name: AuthenticationFilter
+        - id: profile-service
+          uri: lb://profile-service
+          predicates:
+            - Path=${app.api-prefix}/profile/**
+          filters:
+            - StripPrefix=2
+            - name: AuthenticationFilter

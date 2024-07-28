@@ -1,18 +1,17 @@
 package com.food_delivery.identity.controller;
 
 import com.food_delivery.identity.dto.request.GoogleSignInRequest;
+import com.food_delivery.identity.dto.request.IntrospectTokenRequest;
 import com.food_delivery.identity.dto.request.UserSignInRequest;
 import com.food_delivery.identity.dto.request.UserSignUpRequest;
 import com.food_delivery.identity.dto.response.ApiResponse;
+import com.food_delivery.identity.dto.response.IntrospectTokenResponse;
 import com.food_delivery.identity.dto.response.UserResponse;
 import com.food_delivery.identity.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -49,5 +48,14 @@ public class UserController {
         var data = userService.googleSignIn(googleSignInRequest);
         return ResponseEntity.ok(ApiResponse
                 .<UserResponse>builder().data(data).build());
+    }
+
+    @PostMapping("/introspect")
+    public ResponseEntity<ApiResponse<IntrospectTokenResponse>> introspectToken(
+            @RequestBody IntrospectTokenRequest introspectTokenRequest
+    ) {
+        var data = userService.introspectToken(introspectTokenRequest);
+        return ResponseEntity.ok(ApiResponse
+                .<IntrospectTokenResponse>builder().data(data).build());
     }
 }

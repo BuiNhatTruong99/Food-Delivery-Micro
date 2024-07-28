@@ -1,7 +1,7 @@
 package com.food_delivery.identity.security;
 
 import com.food_delivery.identity.exception.ErrorCode;
-import com.food_delivery.identity.exception.ResourceNotFound;
+import com.food_delivery.identity.exception.UsernameNotFoundException;
 import com.food_delivery.identity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ public class ApplicationConfig {
     public UserDetailsService userDetailsService() {
         return username -> userRepository
                 .findByEmail(username)
-                .orElseThrow(() -> new ResourceNotFound(ErrorCode.ERR_USER_NOT_FOUND));
+                .orElseThrow(() -> new UsernameNotFoundException(ErrorCode.ERR_USER_INVALID_CREDENTIALS));
     }
 
     @Bean

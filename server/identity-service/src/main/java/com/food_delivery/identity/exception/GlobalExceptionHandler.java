@@ -4,6 +4,7 @@ import com.food_delivery.identity.dto.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,16 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
-        ErrorCode errorCode = ErrorCode.ERR_INTERNAL_SERVER_ERROR;
-        ApiResponse<?> apiResponse = ApiResponse.builder()
-                .code(errorCode.getHttpStatusCode().value())
-                .message(exception.getMessage())
-                .build();
-        return new ResponseEntity<>(apiResponse, errorCode.getHttpStatusCode());
-    }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleException(MethodArgumentNotValidException exception) {
@@ -42,8 +33,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiResponse, errorCode.getHttpStatusCode());
     }
 
-    @ExceptionHandler(value = ResourceNotFound.class)
-    public ResponseEntity<ApiResponse<?>> handleException(ResourceNotFound exception) {
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleException(UsernameNotFoundException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .code(exception.getHttpStatusCode().value())
                 .message(exception.getMessage())
@@ -53,6 +44,35 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = DuplicateResourceException.class)
     public ResponseEntity<ApiResponse<?>> handleException(DuplicateResourceException exception) {
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .code(exception.getHttpStatusCode().value())
+                .message(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(apiResponse, exception.getHttpStatusCode());
+    }
+
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<ApiResponse<?>> handleException(BadCredentialsException exception) {
+        ErrorCode errorCode = ErrorCode.ERR_USER_INVALID_CREDENTIALS;
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .code(errorCode.getHttpStatusCode().value())
+                .message(errorCode.getMessage())
+                .build();
+        return new ResponseEntity<>(apiResponse, errorCode.getHttpStatusCode());
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
+        ErrorCode errorCode = ErrorCode.ERR_INTERNAL_SERVER_ERROR;
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .code(errorCode.getHttpStatusCode().value())
+                .message(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(apiResponse, errorCode.getHttpStatusCode());
+    }
+
+    @ExceptionHandler(value = AppException.class)
+    public ResponseEntity<ApiResponse<?>> handleException(AppException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .code(exception.getHttpStatusCode().value())
                 .message(exception.getMessage())

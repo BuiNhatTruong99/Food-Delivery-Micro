@@ -31,7 +31,9 @@ public class SecurityConfiguration {
     private static final String[] PUBLIC_URLS = {
             "/users/sign-up",
             "/users/sign-in",
-            "/users/google-sign"
+            "/users/google-sign",
+            "/users/introspect"
+
     };
 
    @Bean
