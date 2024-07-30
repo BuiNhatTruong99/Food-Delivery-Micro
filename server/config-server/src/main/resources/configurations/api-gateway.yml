@@ -3,6 +3,8 @@ server:
 app:
   api-prefix: /api/v1
 spring:
+  main:
+    web-application-type: reactive
   cloud:
     gateway:
       routes:
@@ -13,6 +15,9 @@ spring:
           filters:
             - StripPrefix=2
             - name: AuthenticationFilter
+              args:
+                excludedPaths:
+                  - ${app.api-prefix}/identity/users/.*
         - id: profile-service
           uri: lb://profile-service
           predicates:

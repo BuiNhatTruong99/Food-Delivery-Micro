@@ -1,4 +1,4 @@
-package com.food_delivery.api_gateway.config;
+package com.food_delivery.api_gateway.configuration;
 
 import com.food_delivery.api_gateway.client.IdentityClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

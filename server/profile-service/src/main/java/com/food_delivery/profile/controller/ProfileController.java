@@ -24,11 +24,12 @@ public class ProfileController {
         return ResponseEntity.ok(ApiResponse.<ProfileResponse>builder().data(data).build());
     }
 
-    @GetMapping("/{profileId}")
+    @GetMapping("/get/{profileId}")
     public ResponseEntity<ApiResponse<ProfileResponse>> getProfile(
             @PathVariable Integer profileId
     ) {
         var data = profileService.getProfile(profileId);
         return ResponseEntity.ok(ApiResponse.<ProfileResponse>builder().data(data).build());
     }
+
 }

@@ -12,11 +12,10 @@ public enum ErrorCode {
     ERR_INTERNAL_SERVER_ERROR("Some things went wrong", HttpStatus.INTERNAL_SERVER_ERROR),
     ERR_TOKEN_EXPIRED("Token expired", HttpStatus.UNAUTHORIZED),
     ERR_UNAUTHENTICATED("Unauthenticated", HttpStatus.UNAUTHORIZED),
-    ERR_UNAUTHORIZED("Unauthorized", HttpStatus.UNAUTHORIZED),
+    ERR_UNAUTHORIZED("You don't have permission", HttpStatus.FORBIDDEN),
 
     // user
     ERR_PROFILE_NOT_FOUND("Profile not found", HttpStatus.NOT_FOUND);
-
 
 
     private final String message;

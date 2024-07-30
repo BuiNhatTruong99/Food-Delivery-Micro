@@ -1,8 +1,8 @@
-package com.food_delivery.identity.security;
+package com.food_delivery.profile.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.food_delivery.identity.dto.response.ApiResponse;
-import com.food_delivery.identity.exception.ErrorCode;
+import com.food_delivery.profile.dto.response.ApiResponse;
+import com.food_delivery.profile.exception.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

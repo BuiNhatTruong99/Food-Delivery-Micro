@@ -33,8 +33,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiResponse, errorCode.getHttpStatusCode());
     }
 
-    @ExceptionHandler(value = UsernameNotFoundException.class)
-    public ResponseEntity<ApiResponse<?>> handleException(UsernameNotFoundException exception) {
+    @ExceptionHandler(value = ResourceNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleException(ResourceNotFoundException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .code(exception.getHttpStatusCode().value())
                 .message(exception.getMessage())

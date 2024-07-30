@@ -34,10 +34,10 @@ public class JwtService {
     }
 
     public String generateJwtToken(
-            Map<String, Object> extraClaims,
+            Map<String, Object> extractClaims,
             UserDetails userDetails) {
         return Jwts.builder()
-                .claims(extraClaims)
+                .claims(extractClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))

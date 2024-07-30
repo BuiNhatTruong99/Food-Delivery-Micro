@@ -21,12 +21,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -63,7 +66,7 @@ public class UserServiceImpl implements UserService {
         profileRequest.setUserId(user.getId());
         profileServiceClient.createProfile(profileRequest);
 
-        var accessToken = jwtService.generateJwtToken(user);
+        var accessToken = jwtService.generateJwtToken(putClaimRole(user), user);
         var userResponse = userMapper.toUserResponse(user);
         userResponse.setAccessToken(accessToken);
         log.info("Sign up process for user {} end", userSignUpRequest.getEmail());
@@ -78,12 +81,23 @@ public class UserServiceImpl implements UserService {
                         userSignInRequest.getPassword()
                 )
         );
-        User user = (User) authentication.getPrincipal();
+        var user = userRepository.findByEmail(userSignInRequest.getEmail()).orElseThrow();
+//        User user = (User) authentication.getPrincipal();
         log.info("Get user from authenticationManager: {}", user);
-        var accessToken = jwtService.generateJwtToken(user);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        var accessToken = jwtService.generateJwtToken(putClaimRole(user), user);
         var userResponse = userMapper.toUserResponse(user);
         userResponse.setAccessToken(accessToken);
+        log.info("Signed in user {}", userSignInRequest.getEmail());
         return userResponse;
+    }
+
+    private Map<String, Object> putClaimRole(User user) {
+        String role = user.getRole().name();
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+        return claims;
     }
 
     @Override
@@ -108,7 +122,7 @@ public class UserServiceImpl implements UserService {
             user = userOptional.get();
             log.info("GOOGLE: User with id {} found", user.getId());
         }
-        var accessToken = jwtService.generateJwtToken(user);
+        var accessToken = jwtService.generateJwtToken(putClaimRole(user), user);
         var userResponse = userMapper.toUserResponse(user);
         userResponse.setAccessToken(accessToken);
         return userResponse;

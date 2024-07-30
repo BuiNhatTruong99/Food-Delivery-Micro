@@ -1,14 +1,13 @@
-package com.food_delivery.identity.exception;
-
+package com.food_delivery.profile.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatusCode;
 
-@Data
 @EqualsAndHashCode(callSuper = true)
-public class UsernameNotFoundException extends RuntimeException {
-    public UsernameNotFoundException(ErrorCode errorCode) {
+@Data
+public class AppException extends RuntimeException {
+    public AppException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.httpStatusCode = errorCode.getHttpStatusCode();
     }
