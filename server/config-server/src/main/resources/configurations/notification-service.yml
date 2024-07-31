@@ -1,0 +1,15 @@
+server:
+  port: 8083
+  servlet:
+    context-path: /notification
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:secret@localhost:27017/notification-service?authSource=admin
+
+email-service:
+  apiKey: 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
+  url: https://api.brevo.com
+  senderName: Food Delivery
+  senderEmail: truongbn.dev@gmail.com

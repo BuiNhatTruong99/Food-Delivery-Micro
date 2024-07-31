@@ -17,7 +17,7 @@ spring:
             - name: AuthenticationFilter
               args:
                 excludedPaths:
-                  - ${app.api-prefix}/identity/users/.*
+                  - ${app.api-prefix}/identity/auth/.*
         - id: profile-service
           uri: lb://profile-service
           predicates:
@@ -25,3 +25,17 @@ spring:
           filters:
             - StripPrefix=2
             - name: AuthenticationFilter
+
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=${app.api-prefix}/notification/**
+          filters:
+            - StripPrefix=2
+            - name: AuthenticationFilter
+              args:
+                excludedPaths:
+                  - ${app.api-prefix}/notification/email/send
+
+client:
+  url: http://localhost:3000

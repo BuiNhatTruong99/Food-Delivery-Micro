@@ -1,4 +1,4 @@
-package com.food_delivery.profile.security;
+package com.food_delivery.notification.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ public class SecurityConfiguration {
     private final CustomAccessDeniedHandler CustomAccessDeniedHandler;
 
     private static final String[] PUBLIC_URLS = {
-            "/internal/create"
+            "/email/send"
     };
 
     @Bean

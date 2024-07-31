@@ -82,7 +82,6 @@ public class UserServiceImpl implements UserService {
                 )
         );
         var user = userRepository.findByEmail(userSignInRequest.getEmail()).orElseThrow();
-//        User user = (User) authentication.getPrincipal();
         log.info("Get user from authenticationManager: {}", user);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

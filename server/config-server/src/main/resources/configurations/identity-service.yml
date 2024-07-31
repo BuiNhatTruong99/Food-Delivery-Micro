@@ -14,8 +14,8 @@ spring:
     hibernate:
       ddl-auto: update
     database: postgresql
+
 env:
   secret: DFjhBadj3d6X3df9WYac+DhnK1dK4xqj567N1+HHRv4=
-client:
-  url: http://localhost:3000
+
 
