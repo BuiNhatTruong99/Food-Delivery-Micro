@@ -20,7 +20,7 @@ public class SecurityConfiguration {
     private final CustomAccessDeniedHandler CustomAccessDeniedHandler;
 
     private static final String[] PUBLIC_URLS = {
-            "/email/send"
+            "/external/email/send"
     };
 
     @Bean
@@ -30,7 +30,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(
                         request -> request
                                 .requestMatchers(PUBLIC_URLS).permitAll()
-                                .requestMatchers("/get/**").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
