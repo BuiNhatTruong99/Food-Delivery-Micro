@@ -14,6 +14,11 @@ spring:
     hibernate:
       ddl-auto: update
     database: postgresql
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 env:
   secret: DFjhBadj3d6X3df9WYac+DhnK1dK4xqj567N1+HHRv4=

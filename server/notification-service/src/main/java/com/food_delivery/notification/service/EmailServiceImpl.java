@@ -38,12 +38,32 @@ public class EmailServiceImpl implements EmailService {
                 )
                 .to(List.of(emailRequest.getTo()))
                 .subject(emailRequest.getSubject())
-                .htmlContent(emailRequest.getHtmlContent())
+                .htmlContent(templateBodyEmail(emailRequest.getHtmlContent()))
                 .build();
         try {
             return emailClient.sendEmail(apiKey, emailClientRequest);
         } catch (Exception e) {
             throw new AppException(ErrorCode.ERR_CANNOT_SEND_EMAIL);
         }
+    }
+
+    private String templateBodyEmail(String otp) {
+        return "<html>" +
+                "<head>" +
+                "<style>" +
+                "body { font-family: Arial, sans-serif; }" +
+                "h2 { color: #4CAF50; }" +
+                "p { font-size: 16px; }" +
+                "strong { color: #FF5722; }" +
+                "</style>" +
+                "</head>" +
+                "<body>" +
+                "<h2>Welcome to Food Delivery!</h2>" +
+                "<p>Dear Customer,</p>" +
+                "<p>Thank you for signing up. Your verification code is <strong>" + otp + "</strong>.</p>" +
+                "<p>This code will expire in 15 minutes.</p>" +
+                "<p>Best regards,<br>Food Delivery Team</p>" +
+                "</body>" +
+                "</html>";
     }
 }

@@ -9,15 +9,19 @@ import com.food_delivery.identity.dto.response.IntrospectTokenResponse;
 import com.food_delivery.identity.dto.response.UserResponse;
 import com.food_delivery.identity.entity.AuthProvider;
 import com.food_delivery.identity.entity.User;
+import com.food_delivery.identity.entity.VerifyOtp;
 import com.food_delivery.identity.exception.AppException;
 import com.food_delivery.identity.exception.DuplicateResourceException;
 import com.food_delivery.identity.exception.ErrorCode;
+import com.food_delivery.kafka.NotificationOtp;
 import com.food_delivery.identity.mapper.ProfileServiceMapper;
 import com.food_delivery.identity.mapper.UserMapper;
 import com.food_delivery.identity.repository.UserRepository;
+import com.food_delivery.identity.repository.VerifyOtpRepository;
 import com.food_delivery.identity.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,9 +32,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final VerifyOtpRepository verifyOtpRepository;
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -45,6 +48,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
     private final ProfileServiceClient profileServiceClient;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Transactional
     @Override
@@ -65,6 +69,23 @@ public class UserServiceImpl implements UserService {
         var profileRequest = profileServiceMapper.toProfileCreateRequest(userSignUpRequest);
         profileRequest.setUserId(user.getId());
         profileServiceClient.createProfile(profileRequest);
+
+        // Publish otp to kafka
+        Integer otp = otpGenerator();
+        VerifyOtp verifyOtp = VerifyOtp.builder()
+                .otp(otp)
+                .expirationTime(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
+                .user(user)
+                .build();
+        verifyOtpRepository.save(verifyOtp);
+
+        log.info("Publish otp to kafka");
+        NotificationOtp notificationOtp = NotificationOtp.builder()
+                .recipient(user.getEmail())
+                .subject("Welcome to Food Delivery")
+                .body(String.valueOf(otp))
+                .build();
+        kafkaTemplate.send("notification-otp", notificationOtp);
 
         var accessToken = jwtService.generateJwtToken(putClaimRole(user), user);
         var userResponse = userMapper.toUserResponse(user);
@@ -145,5 +166,10 @@ public class UserServiceImpl implements UserService {
         String userEmail = jwtService.extractUsername(token);
         UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
         return jwtService.isValidJwtToken(token, userDetails);
+    }
+
+    private Integer otpGenerator() {
+        Random random = new Random();
+        return random.nextInt(1000, 9999);
     }
 }
