@@ -8,8 +8,10 @@ import com.food_delivery.profile.exception.ResourceNotFound;
 import com.food_delivery.profile.mapper.ProfileMapper;
 import com.food_delivery.profile.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
@@ -19,8 +21,10 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileResponse createProfile(ProfileCreateRequest profileCreateRequest) {
+        log.info("PROFILE: Start creating profile for user: {}", profileCreateRequest.getEmail());
         Profile profile = profileMapper.toProfile(profileCreateRequest);
         profileRepository.save(profile);
+        log.info("PROFILE: End creating profile");
         return profileMapper.toProfileResponse(profile);
     }
 

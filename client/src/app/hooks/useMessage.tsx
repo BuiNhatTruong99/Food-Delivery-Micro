@@ -1,4 +1,5 @@
 import { AlertColor } from '@mui/material';
+
 import { OptionsObject, useSnackbar } from 'notistack';
 import React, { ReactNode } from 'react';
 
@@ -22,7 +23,8 @@ export const useMessage = () => {
           ...options,
           variant,
           transitionDuration: 500,
-          autoHideDuration: 3000,
+          autoHideDuration: 2500,
+          preventDuplicate: true,
           anchorOrigin: {
             vertical: placement ? (placement.split('-')[0] as any) : 'top',
             horizontal: placement ? (placement.split('-')[1] as any) : 'center'

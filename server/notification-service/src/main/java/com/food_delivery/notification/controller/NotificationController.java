@@ -17,8 +17,20 @@ public class NotificationController {
 
     @KafkaListener(topics = "notification-otp")
     public void listenNotificationOtp(NotificationOtp notificationOtp) {
-        log.info("Received notification: {}", notificationOtp);
+        log.info("Received notification otp: {}", notificationOtp);
         emailService.sendEmail(SendEmailRequest.builder()
+                .to(BodyParam.builder()
+                        .email(notificationOtp.getRecipient())
+                        .build())
+                .subject(notificationOtp.getSubject())
+                .htmlContent(notificationOtp.getBody())
+                .build());
+    }
+
+    @KafkaListener(topics = "notification-reset-password", groupId = "notification-reset-password")
+    public void listenNotificationResetPassword(NotificationOtp notificationOtp) {
+        log.info("Received reset password: {}", notificationOtp);
+        emailService.sendEmailResetPassword(SendEmailRequest.builder()
                 .to(BodyParam.builder()
                         .email(notificationOtp.getRecipient())
                         .build())

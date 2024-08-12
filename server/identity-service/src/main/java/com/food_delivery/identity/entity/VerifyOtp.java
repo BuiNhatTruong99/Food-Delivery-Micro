@@ -1,9 +1,6 @@
 package com.food_delivery.identity.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -20,6 +17,6 @@ public class VerifyOtp extends BaseEntity {
     private Integer otp;
     @Column(name = "expiration_time")
     private Date expirationTime;
-    @OneToOne
+    @ManyToOne
     private User user;
 }

@@ -53,7 +53,7 @@ const InputField = <T extends FieldValues>(props: InputFieldProps<T>) => {
             wrapperProps={{
               sx: {
                 height: '55px',
-                border: `1px solid  ${!isErrorField ? '#EEEEEE' : '#dc3545'}`,
+                border: `1px solid  ${!isErrorField ? '#9796A1' : '#dc3545'}`,
                 borderRadius: '10px',
                 padding: '14px 12px'
               }

@@ -7,6 +7,8 @@ import { useCallback } from 'react';
 import { Button, Form, InputField } from '@/components/atom';
 import { Box } from '@mui/material';
 import { useMessage } from '@/hooks/useMessage';
+import { useResetPasswordMutation } from '@/queries';
+import { IApiErrorResponse, ISendOtp } from '@/domain';
 
 const ResetPasswordForm = () => {
   const {
@@ -18,11 +20,27 @@ const ResetPasswordForm = () => {
     mode: 'all'
   });
 
+  const { mutateAsync, isPending } = useResetPasswordMutation();
   const message = useMessage();
 
-  const onSubmit = useCallback(() => {
-    message.warning('Not implemented');
-  }, [message]);
+  const onSubmit = useCallback(
+    (values: ISendOtp) => {
+      mutateAsync(values, {
+        onSuccess: () => {
+          message.success('Please check your email');
+        },
+        onError: (err: IApiErrorResponse) => {
+          if (err?.code === 409) {
+            message.warning(err?.message);
+            return;
+          }
+
+          message.error(err?.message);
+        }
+      });
+    },
+    [message, mutateAsync]
+  );
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="flex gap-8 flex-col">
@@ -37,11 +55,11 @@ const ResetPasswordForm = () => {
         />
       </Box>
       <Button
-        // loading={isLoading}
+        loading={isPending}
         htmlType="submit"
         type="primary"
         size="large"
-        // disabled={isLoading}
+        disabled={isPending}
         wrapperSx={{
           margin: '0px auto',
           marginTop: '1.5rem'

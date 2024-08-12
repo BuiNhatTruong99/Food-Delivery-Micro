@@ -1,12 +1,15 @@
-import MainLayout from './layouts/MainLayout';
-import Providers from './provider';
 import '@styles/globals.css';
+import MainLayout from './layouts/MainLayout';
+import Providers, { ClientSessionProvider } from './provider';
+import { getServerSession } from 'next-auth';
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession();
+
   return (
     <html lang="en">
       <head>
@@ -14,7 +17,9 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <MainLayout>{children}</MainLayout>
+          <ClientSessionProvider session={session}>
+            <MainLayout>{children}</MainLayout>
+          </ClientSessionProvider>
         </Providers>
       </body>
     </html>

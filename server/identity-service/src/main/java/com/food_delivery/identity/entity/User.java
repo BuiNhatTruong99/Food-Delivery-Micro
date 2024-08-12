@@ -38,9 +38,9 @@ public class User extends BaseEntity implements UserDetails {
     @Builder.Default
     private Boolean isEmailVerified = false;
 
-    @OneToOne(mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private VerifyOtp verifyOtp;
+    private List<VerifyOtp> verifyOtp;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

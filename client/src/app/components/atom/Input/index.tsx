@@ -9,7 +9,7 @@ const Input: FC<IInputProps> = React.forwardRef(
   ({ wrapperProps, ...props }, ref) => {
     return (
       <Box {...wrapperProps}>
-        <InputBase ref={ref} {...props} className="h-[1rem]" />
+        <InputBase ref={ref} {...props} className="h-[1rem] w-full" />
       </Box>
     );
   }

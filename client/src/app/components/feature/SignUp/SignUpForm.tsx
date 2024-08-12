@@ -5,6 +5,13 @@ import { SignUpSchema, TSignUpSchema } from './validSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Form, InputField } from '@/components/atom';
 import { Box } from '@mui/material';
+import { IApiErrorResponse, ISignUp } from '@/domain';
+import { useRouter } from 'next/navigation';
+import { useSignUpMutation } from '@/queries';
+import { useMessage } from '@/hooks/useMessage';
+import { useCallback } from 'react';
+import { useAuthStore } from '@/stores';
+import { PATHNAME } from '@/config';
 
 const SignUpForm = () => {
   const {
@@ -16,7 +23,30 @@ const SignUpForm = () => {
     mode: 'all'
   });
 
-  const onSubmit = () => {};
+  const { push } = useRouter();
+  const { mutateAsync, isPending } = useSignUpMutation();
+  const { setUserInfo, setTokens } = useAuthStore();
+  const message = useMessage();
+
+  const onSubmit = useCallback(
+    (value: ISignUp) => {
+      mutateAsync(value, {
+        onSuccess: (res) => {
+          if (res && res?.data) {
+            const { id, email, isEmailVerified, role, accessToken } = res.data;
+            setUserInfo({ id, email, isEmailVerified, role });
+            setTokens({ accessToken });
+          }
+          push(PATHNAME.VERIFICATION);
+        },
+        onError: (err: IApiErrorResponse) => {
+          message.error(err?.message);
+        }
+      });
+    },
+    [mutateAsync, message, setUserInfo, setTokens, push]
+  );
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="flex gap-0 flex-col">
       <Box>
@@ -47,11 +77,11 @@ const SignUpForm = () => {
         />
       </Box>
       <Button
-        // loading={isLoading}
+        loading={isPending}
         htmlType="submit"
         type="primary"
         size="large"
-        // disabled={isLoading}
+        disabled={isPending}
         wrapperSx={{
           margin: '0px auto',
           marginTop: '0.5rem'
