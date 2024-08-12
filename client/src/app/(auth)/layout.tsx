@@ -13,6 +13,7 @@ const FOOTER_FOR_AUTH = [PATHNAME.SIGN_IN, PATHNAME.SIGN_UP];
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
   useRouterProgress();
+
   if (pathName === PATHNAME.ONBOARDING) {
     return <div className="h-[100dvh]">{children}</div>;
   }

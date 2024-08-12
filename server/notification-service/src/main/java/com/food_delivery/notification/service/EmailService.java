@@ -5,4 +5,7 @@ import com.food_delivery.notification.dto.response.EmailResponse;
 
 public interface EmailService {
     EmailResponse sendEmail(SendEmailRequest emailRequest);
+
+    EmailResponse sendEmailResetPassword(SendEmailRequest emailRequest);
+
 }

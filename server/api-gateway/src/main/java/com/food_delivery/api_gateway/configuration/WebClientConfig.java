@@ -30,7 +30,7 @@ public class WebClientConfig {
     CorsWebFilter corsWebFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(CLIENT_URL));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Origin", "Cache-Control", "X-Auth-Token", "X-Auth-Email", "X-Auth-Id"));
 
@@ -42,7 +42,7 @@ public class WebClientConfig {
     @Bean
     public IdentityClient identityClient(WebClient.Builder webClientBuilder) {
         WebClient webClient = webClientBuilder
-                .baseUrl("http://identity-service/identity/users")
+                .baseUrl("http://identity-service/identity/auth")
                 .build();
 
         return HttpServiceProxyFactory

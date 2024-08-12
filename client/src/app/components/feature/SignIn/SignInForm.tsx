@@ -7,6 +7,12 @@ import { Box, Typography } from '@mui/material';
 import { Button, Form, InputField } from '@/components/atom';
 import Link from 'next/link';
 import { PATHNAME } from '@/config';
+import { useCallback } from 'react';
+import { IApiErrorResponse, ISignIn } from '@/domain';
+import { useSignInMutation } from '@/queries';
+import { useAuthStore } from '@/stores';
+import { useRouter } from 'next/navigation';
+import { useMessage } from '@/hooks/useMessage';
 
 const SignInForm = () => {
   const {
@@ -18,7 +24,36 @@ const SignInForm = () => {
     mode: 'all'
   });
 
-  const onSubmit = () => {};
+  const { push } = useRouter();
+  const { mutateAsync, isPending } = useSignInMutation();
+  const { setUserInfo, setTokens } = useAuthStore();
+  const message = useMessage();
+
+  const onSubmit = useCallback(
+    (value: ISignIn) => {
+      mutateAsync(value, {
+        onSuccess: (res) => {
+          if (res && res?.data) {
+            const {
+              id,
+              email,
+              isEmailVerified,
+              role,
+              accessToken,
+              refreshToken
+            } = res.data;
+            setUserInfo({ id, email, isEmailVerified, role });
+            setTokens({ accessToken, refreshToken });
+            push(PATHNAME.HOME);
+          }
+        },
+        onError: (err: IApiErrorResponse) => {
+          message.error(err?.message);
+        }
+      });
+    },
+    [mutateAsync, message, setUserInfo, setTokens, push]
+  );
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="flex gap-0 flex-col">
@@ -55,11 +90,11 @@ const SignInForm = () => {
         </Link>
       </Box>
       <Button
-        // loading={isLoading}
+        loading={isPending}
         htmlType="submit"
         type="primary"
         size="large"
-        // disabled={isLoading}
+        disabled={isPending}
         wrapperSx={{
           margin: '0px auto',
           marginTop: '1.5rem'

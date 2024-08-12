@@ -1,5 +1,6 @@
 package com.food_delivery.identity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,6 +38,9 @@ public class User extends BaseEntity implements UserDetails {
     @Builder.Default
     private Boolean isEmailVerified = false;
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<VerifyOtp> verifyOtp;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

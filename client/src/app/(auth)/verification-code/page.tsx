@@ -13,12 +13,6 @@ const VerifyCodePage = () => {
             <Typography variant="h1" className="h-[40px]">
               Verification Code
             </Typography>
-            <Typography
-              variant="body2"
-              className="w-[247px] h-[40px] text-grayLight dark:text-grayDark"
-            >
-              Please type the verification code sent to prelookstudio@gmail.com
-            </Typography>
           </Box>
 
           <CodeVerificationInput />

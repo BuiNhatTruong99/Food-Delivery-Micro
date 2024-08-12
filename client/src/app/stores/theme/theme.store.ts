@@ -1,8 +1,7 @@
 import { DEFAULT_MODE, ThemeMode } from '@/config';
+import { THEME_KEY } from '@/constant';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-export const THEME_KEY = 'food_hub_mode';
 
 interface IThemeStore {
   themeMode: ThemeMode;

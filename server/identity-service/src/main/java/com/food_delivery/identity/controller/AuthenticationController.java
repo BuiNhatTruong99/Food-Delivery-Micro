@@ -1,20 +1,15 @@
 package com.food_delivery.identity.controller;
 
-import com.food_delivery.identity.dto.request.GoogleSignInRequest;
-import com.food_delivery.identity.dto.request.IntrospectTokenRequest;
-import com.food_delivery.identity.dto.request.UserSignInRequest;
-import com.food_delivery.identity.dto.request.UserSignUpRequest;
+import com.food_delivery.identity.dto.request.*;
 import com.food_delivery.identity.dto.response.ApiResponse;
 import com.food_delivery.identity.dto.response.IntrospectTokenResponse;
+import com.food_delivery.identity.dto.response.TokenRefreshResponse;
 import com.food_delivery.identity.dto.response.UserResponse;
 import com.food_delivery.identity.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -60,5 +55,42 @@ public class AuthenticationController {
         var data = userService.introspectToken(introspectTokenRequest);
         return ResponseEntity.ok(ApiResponse
                 .<IntrospectTokenResponse>builder().data(data).build());
+    }
+
+    @PostMapping("/send-otp")
+    public ResponseEntity<ApiResponse<?>> sendOtp(
+            @Valid
+            @RequestBody SendOtpRequest sendOtpRequest
+    ) {
+        userService.sendOtp(sendOtpRequest);
+        return ResponseEntity.ok(ApiResponse.<Object>builder().build());
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse<?>> resetPassword(
+            @Valid
+            @RequestBody SendOtpRequest sendOtpRequest
+    ) {
+        userService.resetPassword(sendOtpRequest);
+        return ResponseEntity.ok(ApiResponse.<Object>builder().build());
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<ApiResponse<?>> changePassword(
+            @Valid
+            @RequestBody ChangePasswordRequest changePasswordRequest
+    ) {
+        userService.changePassword(changePasswordRequest);
+        return ResponseEntity.ok(ApiResponse.<Object>builder().build());
+    }
+
+
+    @PostMapping("/new-token")
+    public ResponseEntity<ApiResponse<TokenRefreshResponse>> sendOtp(
+            @Valid
+            @RequestBody TokenRefreshRequest tokenRefreshRequest
+    ) {
+        var data = userService.tokenRefresh(tokenRefreshRequest);
+        return ResponseEntity.ok(ApiResponse.<TokenRefreshResponse>builder().data(data).build());
     }
 }

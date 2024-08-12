@@ -1,3 +1,5 @@
 import { useThemeStore } from './theme/theme.store';
+import { useAuthStore } from './auth/auth.store';
+import { clientStorage } from './client/client.store';
 
-export { useThemeStore };
+export { useThemeStore, useAuthStore, clientStorage };

@@ -90,7 +90,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     Mono<Void> unauthenticated(ServerHttpResponse response) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .code(HttpStatus.UNAUTHORIZED.value())
-                .message("Unauthenticated")
+                .message("You need to be logged in")
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -106,4 +106,5 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return response.writeWith(
                 Mono.just(response.bufferFactory().wrap(body.getBytes())));
     }
+
 }
