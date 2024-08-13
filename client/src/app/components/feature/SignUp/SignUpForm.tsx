@@ -33,9 +33,25 @@ const SignUpForm = () => {
       mutateAsync(value, {
         onSuccess: (res) => {
           if (res && res?.data) {
-            const { id, email, isEmailVerified, role, accessToken } = res.data;
-            setUserInfo({ id, email, isEmailVerified, role });
-            setTokens({ accessToken });
+            const {
+              id,
+              email,
+              isEmailVerified,
+              role,
+              fullName,
+              imageUrl,
+              accessToken,
+              refreshToken
+            } = res.data;
+            setUserInfo({
+              id,
+              email,
+              isEmailVerified,
+              role,
+              fullName,
+              imageUrl
+            });
+            setTokens({ accessToken, refreshToken });
           }
           push(PATHNAME.VERIFICATION);
         },

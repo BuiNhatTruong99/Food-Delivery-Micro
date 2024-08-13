@@ -39,10 +39,21 @@ const SignInForm = () => {
               email,
               isEmailVerified,
               role,
+              fullName,
+              addresses,
+              imageUrl,
               accessToken,
               refreshToken
             } = res.data;
-            setUserInfo({ id, email, isEmailVerified, role });
+            setUserInfo({
+              id,
+              email,
+              isEmailVerified,
+              role,
+              fullName,
+              imageUrl,
+              addresses
+            });
             setTokens({ accessToken, refreshToken });
             push(PATHNAME.HOME);
           }

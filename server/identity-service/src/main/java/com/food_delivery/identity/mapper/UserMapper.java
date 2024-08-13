@@ -1,6 +1,6 @@
 package com.food_delivery.identity.mapper;
 
-import com.food_delivery.identity.dto.request.UserSignUpRequest;
+import com.food_delivery.identity.dto.request.authentication.UserSignUpRequest;
 import com.food_delivery.identity.dto.response.UserResponse;
 import com.food_delivery.identity.entity.User;
 import org.mapstruct.Mapper;
