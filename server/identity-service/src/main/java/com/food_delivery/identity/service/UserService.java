@@ -1,6 +1,7 @@
 package com.food_delivery.identity.service;
 
-import com.food_delivery.identity.dto.request.*;
+import com.food_delivery.identity.dto.request.authentication.*;
+import com.food_delivery.identity.dto.request.user.VerificationEmailRequest;
 import com.food_delivery.identity.dto.response.IntrospectTokenResponse;
 import com.food_delivery.identity.dto.response.TokenRefreshResponse;
 import com.food_delivery.identity.dto.response.UserResponse;

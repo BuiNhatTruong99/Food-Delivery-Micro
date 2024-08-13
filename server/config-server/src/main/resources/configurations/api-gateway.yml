@@ -18,13 +18,6 @@ spring:
               args:
                 excludedPaths:
                   - ${app.api-prefix}/identity/auth/.*
-        - id: profile-service
-          uri: lb://profile-service
-          predicates:
-            - Path=${app.api-prefix}/profile/**
-          filters:
-            - StripPrefix=2
-            - name: AuthenticationFilter
 
         - id: notification-service
           uri: lb://notification-service

@@ -56,6 +56,9 @@ const FooterForAuth = () => {
           userEmail,
           isEmailVerified,
           role,
+          fullName,
+          imageUrl,
+          addresses,
           accessToken,
           refreshToken
         } = session.user;
@@ -67,7 +70,10 @@ const FooterForAuth = () => {
           id: userId,
           email: userEmail,
           isEmailVerified,
-          role
+          role,
+          fullName,
+          imageUrl,
+          addresses
         });
         message.success('Successfully signed in with Google.');
       }

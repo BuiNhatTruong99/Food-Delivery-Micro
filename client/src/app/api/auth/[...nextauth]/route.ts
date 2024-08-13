@@ -61,6 +61,9 @@ const authOptions: NextAuthOptions = {
             session.user.userEmail = response.data.email;
             session.user.role = response.data.role;
             session.user.isEmailVerified = response.data.isEmailVerified;
+            session.user.fullName = response.data.fullName;
+            session.user.imageUrl = response.data.imageUrl;
+            session.user.addresses = response.data.addresses;
             session.user.accessToken = response.data.accessToken;
             session.user.refreshToken = response.data.refreshToken;
           }

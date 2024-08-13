@@ -111,8 +111,24 @@ const CodeVerificationForm: React.FC = () => {
       mutateVerificationEmail(value, {
         onSuccess: (res) => {
           if (res && res?.data) {
-            const { id, email, isEmailVerified, role } = res.data;
-            setUserInfo({ id, email, isEmailVerified, role });
+            const {
+              id,
+              email,
+              isEmailVerified,
+              role,
+              fullName,
+              addresses,
+              imageUrl
+            } = res.data;
+            setUserInfo({
+              id,
+              email,
+              isEmailVerified,
+              role,
+              fullName,
+              imageUrl,
+              addresses
+            });
             push(PATHNAME.HOME);
           }
         },

@@ -1,6 +1,6 @@
 package com.food_delivery.identity.controller;
 
-import com.food_delivery.identity.dto.request.VerificationEmailRequest;
+import com.food_delivery.identity.dto.request.user.VerificationEmailRequest;
 import com.food_delivery.identity.dto.response.ApiResponse;
 import com.food_delivery.identity.dto.response.UserResponse;
 import com.food_delivery.identity.service.UserService;

@@ -1,7 +1,7 @@
 package com.food_delivery.identity.service;
 
-import com.food_delivery.identity.client.ProfileServiceClient;
-import com.food_delivery.identity.dto.request.*;
+import com.food_delivery.identity.dto.request.authentication.*;
+import com.food_delivery.identity.dto.request.user.VerificationEmailRequest;
 import com.food_delivery.identity.dto.response.IntrospectTokenResponse;
 import com.food_delivery.identity.dto.response.TokenRefreshResponse;
 import com.food_delivery.identity.dto.response.UserResponse;
@@ -12,7 +12,6 @@ import com.food_delivery.identity.exception.AppException;
 import com.food_delivery.identity.exception.DuplicateResourceException;
 import com.food_delivery.identity.exception.ErrorCode;
 import com.food_delivery.identity.exception.ResourceNotFoundException;
-import com.food_delivery.identity.mapper.ProfileServiceMapper;
 import com.food_delivery.identity.mapper.TokenMapper;
 import com.food_delivery.identity.mapper.UserMapper;
 import com.food_delivery.identity.repository.UserRepository;
@@ -47,13 +46,10 @@ public class UserServiceImpl implements UserService {
     private final CustomJwtDecoder jwtDecoder;
     private final UserMapper userMapper;
     private final TokenMapper tokenMapper;
-    private final ProfileServiceMapper profileServiceMapper;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
-    private final ProfileServiceClient profileServiceClient;
     private final KafkaTemplate<String, Object> kafkaTemplate;
-
 
     @Transactional
     @Override
@@ -69,12 +65,6 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userSignUpRequest.getPassword()));
         user.setAuthProvider(AuthProvider.LOCAL);
         userRepository.save(user);
-
-        // Call profile service to create profile
-        log.info("SIGN-UP: Calling profile service");
-        var profileRequest = profileServiceMapper.toProfileCreateRequest(userSignUpRequest);
-        profileRequest.setUserId(user.getId());
-        profileServiceClient.createProfile(profileRequest);
 
         // Publish otp to kafka
         Integer otp = otpGenerator();
@@ -132,20 +122,13 @@ public class UserServiceImpl implements UserService {
                     .email(decodeEmail)
                     .authProvider(provider)
                     .isEmailVerified(decodeToken.getClaims().get(
-                            "email_verified").toString().equals("true")).build();
-            user = userRepository.save(newUser);
-            log.info("GOOGLE: End process creating new user {}", user.getId());
-
-            // Call profile service to create profile
-            ProfileCreateRequest profileRequest = ProfileCreateRequest.builder()
-                    .email(decodeEmail)
+                            "email_verified").toString().equals("true"))
                     .fullName(decodeToken.getClaims().get("name").toString())
                     .imageUrl(decodeToken.getClaims().get("picture").toString())
                     .build();
-            profileRequest.setUserId(user.getId());
-            log.info("GOOGLE: Calling profile service");
-            profileServiceClient.createProfile(profileRequest);
-            log.info("Profile created for user {}", user.getId());
+
+            user = userRepository.save(newUser);
+            log.info("GOOGLE: End process creating new user {}", user.getId());
         } else {
             user = userOptional.get();
             log.info("GOOGLE: User with id {} found", user.getId());
@@ -298,7 +281,6 @@ public class UserServiceImpl implements UserService {
                 .subject("Welcome to Food Delivery")
                 .body(String.valueOf(otp))
                 .build();
-
         log.info("SEND-NOTIFICATION: Send data to kafka");
         kafkaTemplate.send(topic, notificationOtp);
     }

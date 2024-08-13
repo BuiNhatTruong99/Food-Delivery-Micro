@@ -25,6 +25,9 @@ public enum ErrorCode {
     // otp
     ERR_OTP_NOT_FOUND("Your OTP is incorrect. Please try again", HttpStatus.NOT_FOUND),
     ERR_OTP_EXPIRED("Your OTP has expired. Please request a new one", HttpStatus.BAD_REQUEST),
+
+    // address
+    ERR_ADDRESS_NOT_FOUND("We couldn't find your address", HttpStatus.NOT_FOUND),
     ;
     private final String message;
     private final HttpStatusCode httpStatusCode;

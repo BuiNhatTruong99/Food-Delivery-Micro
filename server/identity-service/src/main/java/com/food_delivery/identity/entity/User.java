@@ -38,9 +38,23 @@ public class User extends BaseEntity implements UserDetails {
     @Builder.Default
     private Boolean isEmailVerified = false;
 
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "image_url")
+    @Builder.Default
+    private String imageUrl = "https://res.cloudinary.com/dxvqk2zqk/image/upload/v1681882949/food-delivery/default/default_user_2x_jkqj2o.png";
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<VerifyOtp> verifyOtp;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Address> addresses;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

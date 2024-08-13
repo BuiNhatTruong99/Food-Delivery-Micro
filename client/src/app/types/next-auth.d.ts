@@ -1,4 +1,4 @@
-import { ITokens } from '@/domain';
+import { IAddress, ITokens } from '@/domain';
 import { DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {
@@ -14,5 +14,8 @@ declare module 'next-auth' {
     userEmail?: string;
     role?: string;
     isEmailVerified?: boolean;
+    fullName?: string;
+    imageUrl?: string;
+    addresses?: IAddress[];
   }
 }

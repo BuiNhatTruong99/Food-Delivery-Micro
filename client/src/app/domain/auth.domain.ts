@@ -3,6 +3,15 @@ interface IUserInfo {
   email?: string;
   role?: string;
   isEmailVerified?: boolean;
+  fullName?: string;
+  imageUrl?: string;
+  addresses?: IAddress[];
+}
+
+interface IAddress {
+  state?: string;
+  city?: string;
+  street?: string;
 }
 
 interface ITokens {
@@ -45,6 +54,7 @@ interface IUserResponse extends ITokens, IUserInfo {}
 
 export type {
   IUserInfo,
+  IAddress,
   ITokens,
   ISignIn,
   IUserResponse,
