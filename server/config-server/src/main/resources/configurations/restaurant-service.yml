@@ -1,0 +1,9 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /restaurant
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:secret@localhost:27017/restaurant-service?authSource=admin
