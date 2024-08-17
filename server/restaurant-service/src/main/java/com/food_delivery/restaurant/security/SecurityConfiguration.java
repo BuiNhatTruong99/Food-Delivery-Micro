@@ -19,8 +19,14 @@ public class SecurityConfiguration {
     private final JwtAuthenticationEntryPoint JwtAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
 
+    private static final String[] OWNER_URLS = {
+            "/external/**",
+    };
+    private static final String[] ADMIN_URLS = {
+            "/internal/**",
+    };
     private static final String[] PUBLIC_URLS = {
-            "",
+            "/external/categories",
     };
 
     @Bean
@@ -30,6 +36,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(
                         request -> request
                                 .requestMatchers(PUBLIC_URLS).permitAll()
+                                .requestMatchers(OWNER_URLS).hasAnyAuthority("RESTAURANT_OWNER")
+                                .requestMatchers(ADMIN_URLS).hasAnyAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt

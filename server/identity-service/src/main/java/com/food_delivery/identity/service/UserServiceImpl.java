@@ -253,7 +253,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> claims = new HashMap<>();
         log.info("GENERATE-TOKEN: Put role in claims for user {}", user.getId());
         claims.put("role", role);
-        claims.put("id", user.getId());
+        claims.put("id", user.getId().toString());
         var accessToken = jwtService.generateJwtToken(claims, user);
         var refreshToken = jwtService.generateJwtToken(user);
         log.info("GENERATE-TOKEN: SET tokens in response");

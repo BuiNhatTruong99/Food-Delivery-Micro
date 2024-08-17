@@ -17,7 +17,7 @@ public class BaseEntity {
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     @Column(name = "id", updatable = false)
-    private Integer id;
+    protected Integer id;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

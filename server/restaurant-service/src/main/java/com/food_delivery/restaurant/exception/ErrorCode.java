@@ -14,7 +14,14 @@ public enum ErrorCode {
     ERR_TOKEN_INVALID("Session is invalid. Please log in again", HttpStatus.UNAUTHORIZED),
     ERR_UNAUTHENTICATED("You need to be logged in", HttpStatus.UNAUTHORIZED),
     ERR_UNAUTHORIZED("Sorry! You don't have permission", HttpStatus.FORBIDDEN),
-    
+
+    // restaurant
+    ERR_RESTAURANT_DUPLICATE("Restaurant information already exists", HttpStatus.CONFLICT),
+    ERR_RESTAURANT_NOT_FOUND("We couldn't find this restaurant", HttpStatus.NOT_FOUND),
+
+    // category
+    ERR_CATEGORY_DUPLICATE("This category already exists", HttpStatus.CONFLICT),
+    ERR_CATEGORY_NOT_FOUND("Category not found", HttpStatus.NOT_FOUND),
     ;
     private final String message;
     private final HttpStatusCode httpStatusCode;
