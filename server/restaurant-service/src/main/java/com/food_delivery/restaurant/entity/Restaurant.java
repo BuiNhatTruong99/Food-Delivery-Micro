@@ -2,7 +2,6 @@ package com.food_delivery.restaurant.entity;
 
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
@@ -35,6 +34,9 @@ public class Restaurant extends BaseEntity {
     @Field("shipping_time")
     private String shippingTime;
 
+    @Field("average_shipping_time")
+    private Double averageShippingTime;
+
     @Field("is_certified")
     @Builder.Default
     private boolean isCertified = false;
@@ -46,8 +48,7 @@ public class Restaurant extends BaseEntity {
     private Integer totalReviews;
 
     @Field("tags")
-    @DocumentReference
-    private List<Category> tags;
+    private List<String> tags;
 
     @Field("owner_id")
     private Integer ownerId;

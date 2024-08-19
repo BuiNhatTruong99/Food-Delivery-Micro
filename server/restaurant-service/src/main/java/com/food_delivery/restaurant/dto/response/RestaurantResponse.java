@@ -25,6 +25,6 @@ public class RestaurantResponse {
     private boolean isCertified;
     private Double averageStars;
     private Integer totalReviews;
-    private List<CategoryResponse> tags;
+    private List<String> tags;
     private Integer ownerId;
 }

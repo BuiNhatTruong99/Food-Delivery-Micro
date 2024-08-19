@@ -62,13 +62,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getCategoriesByIds(List<String> categoryIds) {
-        return categoryIds.stream()
+    public List<String> getCategoriesNameByIds(List<String> categoryIds) {
+        List<Category> categories = categoryIds.stream()
                 .map(id -> categoryRepository
                         .findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException(
                                 ErrorCode.ERR_CATEGORY_NOT_FOUND)
-                        )).toList();
+                        ))
+                .toList();
+
+        return categories.stream()
+                .map(Category::getName)
+                .collect(Collectors.toList());
     }
 
     @Override
