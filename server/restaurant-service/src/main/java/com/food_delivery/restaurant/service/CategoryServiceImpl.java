@@ -35,6 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new DuplicateResourceException(ErrorCode.ERR_CATEGORY_DUPLICATE);
         }
         var category = categoryMapper.toCategory(request);
+        category.setName(request.getName().toUpperCase());
         categoryRepository.save(category);
         log.info("CATEGORY: CREATED");
         return categoryMapper.toCategoryResponse(category);
@@ -46,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
         var category = categoryRepository
                 .findById(request.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ERR_CATEGORY_NOT_FOUND));
-        category.setName(request.getName());
+        category.setName(request.getName().toUpperCase());
         category.setImageUrl(request.getImageUrl());
         categoryRepository.save(category);
         log.info("CATEGORY: UPDATED");

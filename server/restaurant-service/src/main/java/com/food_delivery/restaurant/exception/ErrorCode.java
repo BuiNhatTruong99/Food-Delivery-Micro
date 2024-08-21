@@ -22,6 +22,12 @@ public enum ErrorCode {
     // category
     ERR_CATEGORY_DUPLICATE("This category already exists", HttpStatus.CONFLICT),
     ERR_CATEGORY_NOT_FOUND("Category not found", HttpStatus.NOT_FOUND),
+
+    // food
+    ERR_ADDON_FOOD_NOT_FOUND("We couldn't find this addon food", HttpStatus.NOT_FOUND),
+    ERR_ADDON_FOOD_DUPLICATE("Addon food already exists", HttpStatus.CONFLICT),
+    ERR_FOOD_NOT_FOUND("We couldn't find this food", HttpStatus.NOT_FOUND),
+    ERR_FOOD_DUPLICATE("This food already exists", HttpStatus.CONFLICT),
     ;
     private final String message;
     private final HttpStatusCode httpStatusCode;

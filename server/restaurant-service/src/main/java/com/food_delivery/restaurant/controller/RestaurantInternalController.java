@@ -47,6 +47,9 @@ public class RestaurantInternalController {
     @PatchMapping("/restaurant/disable/{restaurantId}")
     public ResponseEntity<ApiResponse<?>> disableRestaurant(@PathVariable String restaurantId) {
         restaurantService.disableRestaurant(restaurantId);
-        return ResponseEntity.ok(ApiResponse.<Boolean>builder().data(true).build());
+        return ResponseEntity.ok(
+                ApiResponse.<Boolean>builder()
+                        .message("Restaurant disabled successfully")
+                        .build());
     }
 }
