@@ -71,6 +71,11 @@ public class User extends BaseEntity implements UserDetails {
         return email;
     }
 
+//    @Override
+//    public Integer getId() {
+//        return id;
+//    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

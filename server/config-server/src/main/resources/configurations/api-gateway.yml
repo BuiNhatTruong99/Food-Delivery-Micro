@@ -22,10 +22,14 @@ spring:
         - id: restaurant-service
           uri: lb://restaurant-service
           predicates:
-            - Path=${app.api-prefix}/restaurant/**
+            - Path=${app.api-prefix}/restaurant/external/**
           filters:
             - StripPrefix=2
             - name: AuthenticationFilter
+              args:
+                excludedPaths:
+                  - ${app.api-prefix}/restaurant/external/categories
+
 
         - id: notification-service
           uri: lb://notification-service

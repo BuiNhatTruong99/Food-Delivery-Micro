@@ -24,8 +24,8 @@ services:
     volumes:
       - mongo:/data
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGODB_ROOT_USER: root
+      MONGODB_ROOT_PASSWORD: secret
     networks:
       - food-delivery-network
 
