@@ -10,10 +10,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.food_delivery</groupId>
-    <artifactId>restaurant</artifactId>
+    <artifactId>rating</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>restaurant-service</name>
-    <description>Restaurant service</description>
+    <name>rating</name>
+    <description>Rating service</description>
     <url/>
     <licenses>
         <license/>
@@ -55,11 +55,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -88,7 +88,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>

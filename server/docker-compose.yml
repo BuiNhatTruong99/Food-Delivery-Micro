@@ -16,11 +16,24 @@ services:
       - food-delivery-network
     restart: unless-stopped
 
-  mongodb:
+  mongodb-restaurant:
     image: bitnami/mongodb:7.0.12
-    container_name: mongo_db
+    container_name: mongo_db_restaurant
     ports:
       - "27017:27017"
+    volumes:
+      - mongo:/data
+    environment:
+      MONGODB_ROOT_USER: root
+      MONGODB_ROOT_PASSWORD: secret
+    networks:
+      - food-delivery-network
+
+  mongodb-rating:
+    image: bitnami/mongodb:7.0.12
+    container_name: mongo_db_rating
+    ports:
+      - "27018:27017"
     volumes:
       - mongo:/data
     environment:

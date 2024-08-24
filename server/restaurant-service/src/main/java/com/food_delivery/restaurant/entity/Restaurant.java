@@ -42,10 +42,12 @@ public class Restaurant extends BaseEntity {
     private boolean isCertified = false;
 
     @Field("total_stars")
-    private Double averageStars;
+    @Builder.Default
+    private BigDecimal averageStars = BigDecimal.ZERO;
 
     @Field("total_reviews")
-    private Integer totalReviews;
+    @Builder.Default
+    private Integer totalReviews = 0;
 
     @Field("tags")
     private List<String> tags;

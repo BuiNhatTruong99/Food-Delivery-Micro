@@ -30,7 +30,14 @@ spring:
                 excludedPaths:
                   - ${app.api-prefix}/restaurant/external/categories
 
-
+        - id: rating-service
+          uri: lb://rating-service
+          predicates:
+            - Path=${app.api-prefix}/rating/external/**
+          filters:
+            - StripPrefix=2
+            - name: AuthenticationFilter
+              
         - id: notification-service
           uri: lb://notification-service
           predicates:

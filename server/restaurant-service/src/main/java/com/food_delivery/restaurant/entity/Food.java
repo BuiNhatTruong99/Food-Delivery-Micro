@@ -26,9 +26,11 @@ public class Food extends BaseEntity {
     @Field(value = "price", targetType = FieldType.DECIMAL128)
     private BigDecimal price;
     @Field("total_stars")
-    private Double averageStars;
+    @Builder.Default
+    private BigDecimal averageStars = BigDecimal.ZERO;
     @Field("total_reviews")
-    private Integer totalReviews;
+    @Builder.Default
+    private Integer totalReviews = 0;
     @Field("category")
     private String category;
     @Field("addon_foods")

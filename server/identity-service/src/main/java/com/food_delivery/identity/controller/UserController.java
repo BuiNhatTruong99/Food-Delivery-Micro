@@ -7,10 +7,7 @@ import com.food_delivery.identity.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -27,4 +24,11 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.<UserResponse>builder().data(user).build());
     }
 
+    @GetMapping("/get-user/{userId}")
+    public ResponseEntity<ApiResponse<UserResponse>> getUser(
+            @PathVariable("userId") Integer userId
+    ) {
+        var user = userService.getUser(userId);
+        return ResponseEntity.ok(ApiResponse.<UserResponse>builder().data(user).build());
+    }
 }

@@ -48,5 +48,7 @@ public interface FoodService {
             int page,
             int limit
     );
+
+    void calculateRating(String foodId, int ratingStar);
     /* END FOOD */
 }
