@@ -8,6 +8,8 @@ import com.food_delivery.identity.dto.response.UserResponse;
 
 
 public interface UserService {
+    UserResponse getUser(Integer id);
+
     UserResponse signUp(UserSignUpRequest userSignUpRequest);
 
     UserResponse signIn(UserSignInRequest userSignInRequest);

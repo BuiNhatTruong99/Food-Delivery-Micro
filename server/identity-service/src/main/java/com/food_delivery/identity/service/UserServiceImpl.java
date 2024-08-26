@@ -51,6 +51,19 @@ public class UserServiceImpl implements UserService {
     private final UserDetailsService userDetailsService;
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
+    @Override
+    public UserResponse getUser(Integer id) {
+        var user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ERR_USER_NOT_FOUND));
+        return UserResponse.builder()
+                .id(user.getId())
+                .fullName(user.getFullName())
+                .email(user.getEmail())
+                .imageUrl(user.getImageUrl())
+                .build();
+    }
+
     @Transactional
     @Override
     public UserResponse signUp(UserSignUpRequest userSignUpRequest) {

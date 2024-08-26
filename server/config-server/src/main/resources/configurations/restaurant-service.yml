@@ -10,5 +10,14 @@ spring:
       password: secret
       host: localhost
       port: 27017
-      database: food_delivery_identity
+      database: food_delivery_restaurant
       authentication-database: admin
+  kafka:
+    bootstrap-servers: localhost:9094
+    consumer:
+      group-id: review-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'

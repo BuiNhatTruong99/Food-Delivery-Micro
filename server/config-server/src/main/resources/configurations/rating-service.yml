@@ -1,0 +1,19 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /rating
+
+spring:
+  data:
+    mongodb:
+      username: root
+      password: secret
+      host: localhost
+      port: 27018
+      database: food_delivery_rating
+      authentication-database: admin
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

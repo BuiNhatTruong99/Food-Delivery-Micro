@@ -24,4 +24,7 @@ public interface RestaurantService {
             int page,
             int limit
     );
+
+    // caculate rating
+    void calculateRating(String restaurantId, int ratingStar);
 }

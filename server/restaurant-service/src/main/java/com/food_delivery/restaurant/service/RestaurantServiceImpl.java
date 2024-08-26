@@ -22,6 +22,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 @Service
@@ -167,4 +169,19 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .build();
     }
 
+    @Override
+    public void calculateRating(String restaurantId, int ratingStar) {
+        var restaurant = restaurantRepository
+                .findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ERR_RESTAURANT_NOT_FOUND));
+        BigDecimal rating = new BigDecimal(ratingStar);
+        BigDecimal totalStars = restaurant.getAverageStars().multiply(new BigDecimal(restaurant.getTotalReviews()));
+        BigDecimal newTotalStars = totalStars.add(rating);
+        BigDecimal newTotalReviews = new BigDecimal(restaurant.getTotalReviews() + 1);
+        BigDecimal newAverageStars = newTotalStars.divide(newTotalReviews, 1, RoundingMode.HALF_UP);
+        restaurant.setAverageStars(newAverageStars);
+        restaurant.setTotalReviews(restaurant.getTotalReviews() + 1);
+        restaurantRepository.save(restaurant);
+        log.info("RESTAURANT: average rating is {}", restaurant.getAverageStars());
+    }
 }

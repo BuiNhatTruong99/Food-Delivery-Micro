@@ -26,6 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
@@ -235,5 +236,22 @@ public class FoodServiceImpl implements FoodService {
                         .map(foodMapper::toFoodResponse)
                         .toList())
                 .build();
+    }
+
+
+    @Override
+    public void calculateRating(String foodId, int ratingStar) {
+        var food = foodRepository
+                .findById(foodId)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ERR_FOOD_NOT_FOUND));
+        BigDecimal rating = new BigDecimal(ratingStar);
+        BigDecimal totalStars =
+                food.getAverageStars().multiply(new BigDecimal(food.getTotalReviews()));
+        BigDecimal newTotalStars = totalStars.add(rating);
+        BigDecimal newTotalReviews = new BigDecimal(food.getTotalReviews() + 1);
+        BigDecimal newAverageStars = newTotalStars.divide(newTotalReviews, 1, RoundingMode.HALF_UP);
+        food.setAverageStars(newAverageStars);
+        food.setTotalReviews(food.getTotalReviews() + 1);
+        foodRepository.save(food);
     }
 }
